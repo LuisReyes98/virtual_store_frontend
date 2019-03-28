@@ -1,0 +1,12 @@
+<div class="col-4 home_sidebar">
+  <template v-for="group in groups">
+    <ul class="list-group">
+      <li class="list-group-item title">
+        <h3 class="group"> {{group.name}}</h3>
+      </li>
+      <template v-for="sub in group.subgroups">
+        <li class="list-group-item list-element"> {{sub.name}}</li>
+      </template>
+    </ul>
+  </template>
+</div>
