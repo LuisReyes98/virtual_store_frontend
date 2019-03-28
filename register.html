@@ -48,19 +48,27 @@
 				</div>
 				<form @submit.prevent="submit_demo" action="" method="POST">
 					<div class="input-group my-4">
-						<div class="input-group-prepend"><label class="input-group-text field_name" for="email">Correo
-								Electronico</label></div><input :class="[validEmail ? &#39;is-valid&#39; : &#39;is-invalid&#39;]"
+						<div class="input-group-prepend">
+							<label class="input-group-text field_name" for="email">
+								Correo Electronico
+							</label>
+						</div>
+						<input :class="[validEmail ? 'is-valid' : 'is-invalid']"
 							@input="onchange" class="form-control" id="email" name="email" placeholder="Correo Electronico"
 							type="email" v-model="email" />
-						<div class="invalid-feedback" v-show="!validEmail"> Ingrese un correo valido</div>
-						<div class="valid-feedback" v-show="validEmail"> Todo Bien</div>
+						<div class="invalid-feedback" v-show="!validEmail"> Correo Invalido</div>
 					</div>
 					<div class="input-group my-4">
 						<div class="input-group-prepend">
 							<label class="input-group-text field_name" for="password">
-								Contraseña</label>
+								Contraseña
+							</label>
 						</div>
-						<input class="form-control" id="password" placeholder="Contraseña" type="password" />
+						<input @input="checkPassword" class="form-control" :class="[samePassword ? 'is-valid' : 'is-invalid']"
+							id="password"
+							name="password1" placeholder="Contraseña" type="password" v-model="password1" />
+						<div class="invalid-feedback" v-show="!samePassword"> Contraseñas no coinciden o invalidas</div>
+
 					</div>
 					<div class="input-group my-4">
 						<div class="input-group-prepend">
@@ -68,7 +76,11 @@
 								Confirmar
 							</label>
 						</div>
-						<input class="form-control" id="password_confirm" placeholder="Confirmar Contraseña" type="password" />
+						<input @input="checkPassword" class="form-control" :class="[samePassword ? 'is-valid' : 'is-invalid']"
+							id="password_confirm" placeholder="Confirmar Contraseña"
+							type="password" name="password2" v-model="password2" />
+						<div class="invalid-feedback" v-show="!samePassword"> Contraseñas no coinciden o invalidas</div>
+
 					</div>
 					<div class="d-flex justify-content-center">
 						<button class="btn btn-lg btn-info m-3" type="submit">Registrar Nuevo Usuario</button>
@@ -88,13 +100,23 @@
 	<script src="scripts/vue.js"></script>
 
 	<script>
+		// Stop use of spaces in input with jquery
+		$(function() {
+    	$('input').on('keypress', function(e) {
+        if (e.which == 32)
+					return false;
+    	});
+		});
+
 		const app = new Vue({
 			el: '[data-behaviour="vue"]',
 			data: {
 				email: null,
 				validEmail: false,
+				samePassword: false,
 				errors: null,
-				password: null,
+				password1: null,
+				password2: null,
 			},
 			methods: {
 				submit_demo: function () {
@@ -102,13 +124,21 @@
 					console.log(this.validEmail);
 				},
 				validateEmail: function (email) {
-					var re =
-						/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					var re =	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 					return re.test(email);
 				},
 				onchange: function (ev) {
+
 					this.validEmail = this.validateEmail(this.email);
-				}
+				},
+				checkPassword: function () {
+					console.log("comparing");
+					if (this.password1.localeCompare(this.password2) == 0 && this.password1 !== null && this.password2 !== null ) {
+						this.samePassword = true;
+					}else{
+						this.samePassword = false;
+					}
+				},
 			},
 
 		});
