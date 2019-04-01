@@ -19,7 +19,9 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a href="index.html" class="nav-link">Inicio <span class="sr-only">(página actual)</span></a>
+						<a href="index.html" class="nav-link">Inicio 
+							<span class="sr-only">(página actual)</span>
+					</a>
 					</li>
 					<li class="nav-item">
 						<a href="login.html" class="nav-link">Iniciar sesión</a>
@@ -39,7 +41,10 @@
 		</nav>
 		
 		<div id="signing">
-			<div class="alert alert-danger" role="alert" v-if="errors">Error al iniciar sesión. Intente de nuevo</div>
+			<template  v-if="errors">
+				<div class="alert alert-danger" role="alert">Error al iniciar sesión. Intente de nuevo</div>
+
+			</template>
 			
 			<div class="container mt-4 rounded p-4 sign_form">
 				<div class="d-flex justify-content-center">
@@ -87,6 +92,7 @@
 				},
 				methods: {
 					submit_demo: function(){
+						this.errors = true;
 						console.log(this.email);
 						console.log(this.validEmail);
 					},

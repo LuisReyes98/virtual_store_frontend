@@ -40,7 +40,11 @@
 		</nav>
 
 		<div id="signing">
-			<div class="alert alert-danger" role="alert" v-if="errors">Error al iniciar sesión. Intente de nuevo</div>
+			<template>
+				<div class="alert alert-danger" role="alert" v-if="errors">
+					Error al Registrar Usuario. Intente de nuevo
+				</div>
+			</template>
 
 			<div class="container mt-4 rounded p-4 sign_form">
 				<div class="d-flex justify-content-center">
@@ -120,6 +124,7 @@
 			},
 			methods: {
 				submit_demo: function () {
+					this.errors = true;
 					console.log(this.email);
 					console.log(this.validEmail);
 				},
