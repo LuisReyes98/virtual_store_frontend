@@ -65,13 +65,15 @@
 
 .home_container {
   @extend %big_container;
+  background-color: #C1F5F0;
 
   .home_sidebar {
+    position: sticky;
+    top: 15px;
+    height: 0%;
     padding: 15px;
+
     padding-top: 4rem;
-    background-color: #C1F5F0;
-    flex: 1;
-    flex-grow: 1;
 
     .title {
       background-color: #14A395;
